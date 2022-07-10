@@ -1,0 +1,25 @@
+{% extends "quora/base.html" %}
+{% block content %}
+
+{% block title %}<title>New Question-AskVNR</title>{% endblock title %}
+
+<div class="container" style="
+    background-color: lightgrey;
+    border-radius: 10px;
+    width: 80%;
+    margin: 30px auto;">
+
+  <h5><a href="{% url 'quora:tag' tag.id %}" style="text-decoration:none;color:#990000;padding-top: 10px;display: inline-block;">Tag: {{ tag }}</a></h5>
+	<!--<p><a href="{% url 'quora:tag' tag.id %}">{{tag}}</a></p>-->
+    <h4 style="padding: 10px 0px;">Add a new question:</h4>
+    
+	<form action="{% url 'quora:new_question' tag.id %}" method='post'>
+ {% csrf_token %}
+ {{ form.as_p }}
+		<button class="btn btn-success" type="submit" name="submit" style="
+    margin-bottom: 15px;">Add Question</button>
+	</form>
+</div>
+{% endblock content %}
+
+

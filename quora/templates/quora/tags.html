@@ -1,0 +1,24 @@
+{% extends "quora/base.html" %}
+
+{% block content %}
+
+{% block title %}<title>Tag-AskVNR</title>{% endblock title %}
+
+<div class="container" style="
+    background-color: white;
+    margin-top:50px;
+		border-radius:5px;"
+		>
+<h4 style="width:45%;margin:auto;margin-bottom: 50px;padding-left: 88px;" >Choose a Tag for your question</h4>
+
+    {% for tag in tags %}
+				<a href="{% url 'quora:tag' tag.id %}" class="btn btn-primary" role="button" data-bs-toggle="button" style="margin:10px;">{{ tag }}</a>
+		{% empty %}
+			<li>No tags have been added yet.</li>
+		{% endfor %}
+
+<a href="{% url 'quora:new_tag' %}">Add a new tag:</a>
+
+{% endblock content %}
+
+</div>

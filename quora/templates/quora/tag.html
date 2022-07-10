@@ -1,0 +1,84 @@
+{% extends 'quora/base.html' %}
+
+{% block title %}
+  <title>Tags-AskVNR</title>
+{% endblock title %}
+
+{% block content %}
+
+  <p>
+        <a class="btn btn-primary" href="{% url 'quora:new_question' tag.id %}" role="button" style="
+    width: 30%;
+    margin: 20px 400px;
+">add new question</a>
+  </p>
+
+ <div class="container mt-3 mb-3" style="width:900px; border:0px;">
+            {% for question in questions %}
+            <div class="card text-center" style="border:0px; margin-bottom: 15px;">
+                <div class="card-header bg-dark" style="color:#aaa">
+                    Tag: {{ tag }}
+                </div>
+
+                <div class="card-body">
+                
+                <h5 class="card-title" style="font-size: 35px;">Question-{{forloop.counter}}{{ question.text|linebreaks }}
+                </h5>
+                <a href="{% url 'quora:question' question.id %}" class="btn btn-danger" style="width:20%; margin: 0px 25px;">See Answers</a>
+                {% ifequal question.owner request.user %}
+                  <a class="btn btn-success" href="{% url 'quora:edit_question' question.id %}" role="button" style="width:20%; margin: 0px 25px;">Edit question</a>
+                {% endifequal %}
+                </div>
+                <div class="card-footer text-muted bg-dark">
+                    Asked on {{ question.date_added|date:'M d, Y' }}  by  {{question.owner.username.title}}
+                </div>
+            </div>
+              {% empty %}
+                <li>
+                  There are no questions for this tag yet.
+                </li>
+            {% endfor %}
+  </div>
+
+  <nav aria-label="Page navigation example">
+  <ul class="pagination justify-content-center">
+    <li class="page-item"><a class="page-link" href="?pg=1"><<</a></li>
+    {% if questions.has_previous %}
+        <li class="page-item"><a class="page-link" href="?pg={{ questions.previous_page_number }}">{{ questions.previous_page_number }}</a></li>
+    {% endif %}
+    <li class="page-item"><a class="page-link" href="?pg={{ questions.number }}">{{ questions.number }}</a></li>
+
+    {% if questions.has_next %}
+    <li class="page-item"><a class="page-link" href="?pg={{ questions.next_page_number }}">{{ questions.next_page_number }}</a></li>
+    {% endif %}
+    <li class="page-item"><a class="page-link" href="?pg={{ questions.paginator.num_pages }}">>></a></li>
+  </ul>
+</nav>
+{% endblock content %}
+
+
+
+ <p>Tag: {{ tag }}</p>
+  <p>Questions:</p>
+  <p>
+        <a href="{% url 'quora:new_question' tag.id %}">add new question</a>
+  </p>
+  <ul>
+  {% for question in questions %}
+   <li>
+    <!----<p>{{ question.date_added|date:'M d, Y H:i' }}</p>-->
+    <p>Question-{{forloop.counter}}</p>
+    <p>{{ question.text|linebreaks }}</p>
+    <p>
+        <a href="{% url 'quora:question' question.id %}">see answers</a>
+        {% ifequal question.owner request.user %}
+          <a href="{% url 'quora:edit_question' question.id %}">edit question</a>
+        {% endifequal %}
+    </p>
+   </li>
+   {% empty %}
+   <li>
+    There are no questions for this tag yet.
+   </li>
+  {% endfor %}
+  </ul>

@@ -1,0 +1,55 @@
+{% extends 'quora/base.html' %}
+
+{% block content %}
+{% block title %}<title>Answers-AskVNR</title>{% endblock title %}
+<ul>
+
+    <div class="container">
+      <div class="card mx-auto mt-5" style="width:1000px;">
+        <div class="card-body">
+          <h5 class="card-title">{{ question.text }}</h5>
+          <p class="card-text">Asked on {{ question.date_added|date:'M d, Y' }}  by  {{question.owner.username.title}}</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          {% for answer in answers %}   
+            <li class="list-group-item">
+              <p>Answer-{{forloop.counter}}</p>
+              <p>{{ answer.text|linebreaks }}</p>
+              <p>
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+              </p>
+            </li>
+          {% empty %}
+            <li class="list-group-item">
+              There are no answers for this question yet.
+            </li>
+          {% endfor %}
+        </ul>
+        <div class="card-body">
+          
+          <a class="btn btn-success" href="{% url 'quora:answer_question' question.id %}" role="button" style="margin: 0px 15px;">Answer this question</a>
+        </div>
+      </div>
+    </div>
+</ul>
+{% endblock content %}
+
+  <p>Question:</p>
+  <!--<p><a href="{% url 'quora:answer_question' question.id %}">answer question</a></p>-->
+  <ul>
+  {% for answer in answers %}
+   <li>
+    <!----<p>{{ question.date_added|date:'M d, Y H:i' }}</p>-->
+    <p>Answer-{{forloop.counter}}</p>
+    <p>{{ answer.text|linebreaks }}</p>
+    <!--<p>
+        <a href="{% url 'quora:edit_question' question.id %}">edit question</a>
+    </p>-->
+   </li>
+   {% empty %}
+   <li>
+    There are no answers for this question yet.
+   </li>
+  {% endfor %}
+  </ul>

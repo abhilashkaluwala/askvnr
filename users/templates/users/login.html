@@ -1,0 +1,27 @@
+{% extends "quora/base.html" %}
+
+{% block content %}
+
+{% block title %}<title>Login-AskVNR</title>{% endblock title %}
+
+{% if form.errors %}
+ <p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+
+<form method="post" action="{% url 'users:login' %}" style="
+    background-color: lightgray;
+    width: 30%;
+    margin: auto;
+    margin-top: 50px;
+    padding: 30px 10px;
+    border-radius: 10px;
+">
+   {% csrf_token %}
+   {{ form.as_p }}
+
+  <button type="submit" class="btn btn-primary bg-danger" style="border:none;">Submit</button>
+  <input type="hidden" name="next" value="{% url 'quora:index' %}" />
+</form>
+
+{% endblock content %}
